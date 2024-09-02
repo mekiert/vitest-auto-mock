@@ -13,7 +13,12 @@
     "ts"
   ],
   "author": {
-    "name": "Mateusz Ekiert"
+    "name": "Mateusz Ekiert",
+    "email": "mekiert.software@proton.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mekiert/vitest-auto-mock"
   },
   "license": "MIT",
 
