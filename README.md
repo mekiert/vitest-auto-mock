@@ -1,5 +1,5 @@
 # vitest-auto-mock
-A convenient way to define mocks in your Vitest tests without a need to provided mocked entity path. The path to mock is automatically obtained from the import of the module.
+A convenient way to define mocks in your Vitest tests without a need to provide the mocked entity path. The path to mock is automatically obtained from the import of the module.
 
 BEFORE
 ```ts
@@ -89,7 +89,7 @@ it('should call RouterProvider', () => {
 ```
 
 ## Limitations
-This project is not a magic. It is based on simple assumption, that variable used as an argument of `vitestAutoMock` is imported somewhere in the test file. The path is obtained from the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of the test file, and `vi.mock` function with the obtained path is added to the code. Therefor, any non-imported or re-assigned parameter probably will not work.
+This project is not magic. It is based on the simple assumption that variable used as an argument of `vitestAutoMock` is imported somewhere in the test file. The path is obtained from the [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of the test file, and `vi.mock` function with the obtained path is added to the code. Therefore, any non-imported or re-assigned parameter probably will not work.
 
 ## Authors
 - [Mateusz Ekiert](https://github.com/mekiert)
