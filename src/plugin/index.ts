@@ -13,7 +13,7 @@ import { configDefaults } from 'vitest/config';
 
 const MOCKING_FUNCTION_NAME = 'vitestAutoMock';
 
-export default function vitePluginMocker(): Plugin {
+export default function vitestAutoMockPlugin(): Plugin {
   type FileFilter = ReturnType<typeof createFilter>;
   let fileFilter: FileFilter | null = null;
 
