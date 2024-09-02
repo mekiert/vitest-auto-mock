@@ -1,0 +1,61 @@
+{
+  "name": "vitest-auto-mock",
+  "version": "0.0.1",
+  "description": "Library for mocking dependencies in Vitest with TypeScript without need to provide a path.",
+  "keywords": [
+    "Vitest",
+    "testing",
+    "mocking",
+    "mock",
+    "mocks",
+    "automock",
+    "TypeScript",
+    "ts"
+  ],
+  "author": {
+    "name": "Mateusz Ekiert"
+  },
+  "license": "MIT",
+
+  "type": "module",
+  "lockFileVersion": 3,
+  "engines": {
+    "node": ">=16"
+  },
+
+  "scripts": {
+    "test": "vitest",
+    "build": "tsc && vite build",
+    "build-lib": "tsc && vite build && npm pack --pack-destination=./build-lib"
+  },
+
+  "devDependencies": {
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.0.1",
+    "@types/react": "18.3.5",
+    "@vitejs/plugin-react": "4.3.1",
+    "jsdom": "25.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.5.3",
+    "vite": "5.4.1",
+    "vite-plugin-dts": "4.1.0",
+    "vitest": "2.0.5"
+  },
+
+  "files": [
+    "build"
+  ],
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "require": "./build/index.cjs",
+      "types": "./build/index.d.ts"
+    },
+    "./plugin": {
+      "import": "./build/plugin/index.js",
+      "require": "./build/plugin/index.cjs",
+      "types": "./build/index.d.ts"
+    }
+  }
+}
