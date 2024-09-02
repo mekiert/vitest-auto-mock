@@ -16,9 +16,10 @@
     "name": "Mateusz Ekiert",
     "email": "mekiert.software@proton.me"
   },
+  "homepage": "https://github.com/mekiert/vitest-auto-mock",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mekiert/vitest-auto-mock"
+    "url": "git+https://github.com/mekiert/vitest-auto-mock.git"
   },
   "license": "MIT",
 
