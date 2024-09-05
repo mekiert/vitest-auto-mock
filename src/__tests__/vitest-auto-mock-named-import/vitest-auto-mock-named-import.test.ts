@@ -5,5 +5,5 @@ const objectImportedMock = mockingTool(objectImported);
 
 it('vitest-auto-mock-named-import', () => {
   objectImportedMock.getValue.mockImplementation(() => 'mocked-value');
-  expect(objectImportedMock.getValue()).toBe('mocked-value');
+  expect(objectImportedMock.getValue()).toBe('mocked-value-123');
 });
