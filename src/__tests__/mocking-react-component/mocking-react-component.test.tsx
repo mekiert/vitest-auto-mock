@@ -7,5 +7,5 @@ const mockedComponentB = vitestAutoMock(ComponentSecond);
 
 it('mocking-react-component', () => {
   render(<ComponentFirst />);
-  expect(mockedComponentB).toBeCalledWith({arg: 5},{});
+  expect(mockedComponentB).toBeCalledWith({ arg: 5 }, {});
 });
