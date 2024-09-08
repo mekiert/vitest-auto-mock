@@ -1,5 +1,6 @@
 # vitest-auto-mock
 [![tests](https://github.com/mekiert/vitest-auto-mock/actions/workflows/tests.yml/badge.svg)](https://github.com/mekiert/vitest-auto-mock)
+[![NPM Version](https://img.shields.io/npm/v/vitest-auto-mock)](https://www.npmjs.com/package/vitest-auto-mock)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/mekiert/vitest-auto-mock/master/LICENCE)
 
 A convenient way to define mocks in your Vitest tests without a need to provide the mocked entity path. The path to mock is automatically obtained from the import of the module.
