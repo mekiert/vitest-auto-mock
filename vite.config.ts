@@ -5,7 +5,12 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [dts({
-    exclude: '**/__tests__/**'
+    outDir: 'build',
+    strictOutput: true,
+    exclude: [
+      '**/__tests__/**',
+      'setup-tests.ts'
+    ]
   })],
   resolve: {
     alias: {
