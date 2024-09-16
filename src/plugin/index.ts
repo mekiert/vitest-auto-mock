@@ -55,7 +55,7 @@ const applyAutoMocksUsingAst = (code: string, parse: ParseAst) => {
     }
   };
 
-  const applyMock = (mockDefinition: CallExpression): OptionalImportPath => {
+  const getImportPathOfMockedElement = (mockDefinition: CallExpression): OptionalImportPath => {
     const argument = mockDefinition.arguments[0];
     if (!isIdentifier(argument)) {
       return null;
@@ -72,7 +72,7 @@ const applyAutoMocksUsingAst = (code: string, parse: ParseAst) => {
   if (allAutoMockUsages.length === 0) {
     return code;
   }
-  const importPathsToMock = allAutoMockUsages.map(applyMock);
+  const importPathsToMock = allAutoMockUsages.map(getImportPathOfMockedElement);
   const additionalCodeToAdd = prepareCodeToAdd(importPathsToMock);
   return additionalCodeToAdd.concat(code);
 };
@@ -98,7 +98,7 @@ const isImportNameCorrect = (elem: ImportDeclaration, elementToMockName: string)
 };
 
 const prepareCodeToAdd = (paths: OptionalImportPath[]): string => {
-  return paths
+  return ('\n') + paths
     .filter(path => !!path)
     .map(path => `vi.mock(${path});`)
     .join('\n');

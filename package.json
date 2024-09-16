@@ -1,6 +1,6 @@
 {
   "name": "vitest-auto-mock",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library for mocking dependencies in Vitest with TypeScript without need to provide a path.",
   "keywords": [
     "Vitest",
@@ -45,6 +45,9 @@
     "vite": "5.4.1",
     "vite-plugin-dts": "4.1.0",
     "vitest": "2.0.5"
+  },
+  "peerDependencies": {
+    "vitest": "*"
   },
 
   "files": [
