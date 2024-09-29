@@ -1,8 +1,7 @@
 import { ClassMain } from "src/__tests__/mocking-two-classes-from-one-import/class-main";
 import { OtherClassFirst, OtherClassSecond } from "src/__tests__/mocking-two-classes-from-one-import/file-with-many-classes";
-import { vitestAutoMock } from 'src/index';
 
-const OtherClassSecondMock = vitestAutoMock(OtherClassSecond);
+const OtherClassSecondMock = vi.mocked(OtherClassSecond);
 
 it('mocking-two-imported-classes-from-one-import', () => {
   OtherClassSecondMock.mockImplementation(() => {

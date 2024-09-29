@@ -20,8 +20,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: [
-        'src/index.ts',
-        'src/plugin/index.ts'
+        'src/index.ts'
       ],
       formats: ['es', 'cjs'],
       fileName: (format, name) => {

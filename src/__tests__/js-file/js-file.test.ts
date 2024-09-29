@@ -1,7 +1,6 @@
-import { vitestAutoMock } from "src";
 import { jsFileObject } from 'src/__tests__/js-file/js-file.js';
 
-const jsFileObjectMock = vitestAutoMock(jsFileObject);
+const jsFileObjectMock = vi.mocked(jsFileObject);
 
 it('should mock an import in JS file', () => {
   jsFileObjectMock.getValue.mockReturnValue(5);

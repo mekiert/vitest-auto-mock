@@ -1,8 +1,7 @@
 import { ClassFirst } from "src/__tests__/mocking-class/class-first";
 import { ClassSecond } from "src/__tests__/mocking-class/class-second";
-import { vitestAutoMock } from 'src/index';
 
-const ClassSecondMock = vitestAutoMock(ClassSecond);
+const ClassSecondMock = vi.mocked(ClassSecond);
 
 it('mocking-class', () => {
   ClassSecondMock.mockImplementation(() => {

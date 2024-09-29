@@ -1,8 +1,7 @@
 import { ClassFirst } from "src/__tests__/mocking-class/class-first";
 import { ClassSecond as NamedClassImport } from "src/__tests__/mocking-class/class-second";
-import { vitestAutoMock } from 'src/index';
 
-const NamedClassImportMock = vitestAutoMock(NamedClassImport);
+const NamedClassImportMock = vi.mocked(NamedClassImport);
 
 it('mocking-class-with-named-import', () => {
   NamedClassImportMock.mockImplementation(() => {

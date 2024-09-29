@@ -1,6 +1,6 @@
 {
   "name": "vitest-auto-mock",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Library for mocking dependencies in Vitest with TypeScript without need to provide a path.",
   "keywords": [
     "Vitest",
@@ -57,11 +57,6 @@
     ".": {
       "import": "./build/index.js",
       "require": "./build/index.cjs",
-      "types": "./build/index.d.ts"
-    },
-    "./plugin": {
-      "import": "./build/plugin/index.js",
-      "require": "./build/plugin/index.cjs",
       "types": "./build/index.d.ts"
     }
   }
