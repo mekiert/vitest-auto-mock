@@ -6,7 +6,12 @@ import type {
   SpreadElement,
   Super,
   MemberExpression,
-  PrivateIdentifier
+  PrivateIdentifier,
+  ExpressionStatement,
+  Directive,
+  Statement,
+  ModuleDeclaration,
+  Program
 } from 'estree';
 import type { ParseAst } from 'rollup';
 import { createFilter, Plugin, ResolvedConfig } from 'vite';
@@ -39,50 +44,66 @@ export default function vitestAutoMockPlugin(): Plugin {
 const applyAutoMocksUsingAst = (code: string, parse: ParseAst) => {
   const ast = parse(code);
   const body = ast.body;
-  const bodyImports = body.filter(elem => elem.type === 'ImportDeclaration');
-
-  const isAutoMockUsage = (callExpression: CallExpression) => {
-    const callee = callExpression.callee;
-    if (!isMemberExpression(callee)) {
-      return false;
-    }
-    const calleeObject = callee.object;
-    if(!isIdentifier(calleeObject)) {
-      return false;
-    }
-    if (calleeObject.name !== MOCKING_OBJECT_NAME) {
-      return false;
-    }
-    const calleeProperty = callee.property;
-    if (!isIdentifier(calleeProperty)) {
-      return false;
-    }
-    return calleeProperty.name === MOCKING_FUNCTION_NAME;
-  };
-
-  const getImportPathOfMockedElement = (mockDefinition: CallExpression): OptionalImportPath => {
-    const argument = mockDefinition.arguments[0];
-    if (!isIdentifier(argument)) {
-      return null;
-    }
-    return findImportPathOfElement(bodyImports, argument.name);
-  };
-
-  const allVariablesDeclarations = body
-    .filter(elem => elem.type === 'VariableDeclaration');
-  const allAutoMockUsages = allVariablesDeclarations
-    .map(variableDeclaration => variableDeclaration.declarations[0].init)
-    .filter(isVariableDeclaratorCallExpression)
-    .filter(isAutoMockUsage);
+  const bodyImports = body.filter(isImportDeclaration);
+  const allAutoMockUsages = getAllAutoMockUsages(body);
   if (allAutoMockUsages.length === 0) {
     return code;
   }
-  const importPathsToMock = allAutoMockUsages.map(getImportPathOfMockedElement);
+  const getImportPath = prepareImportPathFinder(bodyImports);
+  const importPathsToMock = allAutoMockUsages.map(getImportPath);
   const additionalCodeToAdd = prepareCodeToAdd(importPathsToMock);
   return additionalCodeToAdd.concat(code);
 };
 
-const isVariableDeclaratorCallExpression = (expression: OptionalExpression): expression is CallExpression => {
+const getAllAutoMockUsages = (body: Program['body']): CallExpression[] => {
+  const usagesByVariablesDeclarations = body
+    .filter(elem => elem.type === 'VariableDeclaration')
+    .map(variableDeclaration => variableDeclaration.declarations[0].init);
+  const usagesByCallExpressions = body
+    .filter(isExpressionStatement)
+    .map(expressionStatement => expressionStatement.expression)
+    .filter(isCallExpression);
+  const usages = [...usagesByVariablesDeclarations, ...usagesByCallExpressions];
+  return usages
+    .filter(isCallExpression)
+    .filter(isAutoMockUsage);
+};
+
+const isAutoMockUsage = (callExpression: CallExpression) => {
+  const callee = callExpression.callee;
+  if (!isMemberExpression(callee)) {
+    return false;
+  }
+  const calleeObject = callee.object;
+  if (!isIdentifier(calleeObject)) {
+    return false;
+  }
+  if (calleeObject.name !== MOCKING_OBJECT_NAME) {
+    return false;
+  }
+  const calleeProperty = callee.property;
+  if (!isIdentifier(calleeProperty)) {
+    return false;
+  }
+  return calleeProperty.name === MOCKING_FUNCTION_NAME;
+};
+
+const prepareImportPathFinder = (bodyImports: ImportDeclaration[]) => (mockDefinition: CallExpression) => {
+  return getImportPathOfMockedElement(bodyImports, mockDefinition);
+}
+
+const getImportPathOfMockedElement = (
+  bodyImports: ImportDeclaration[],
+  mockDefinition: CallExpression
+): OptionalImportPath => {
+  const argument = mockDefinition.arguments[0];
+  if (!isIdentifier(argument)) {
+    return null;
+  }
+  return findImportPathOfElement(bodyImports, argument.name);
+};
+
+const isCallExpression = (expression: OptionalExpression): expression is CallExpression => {
   return !!expression && expression.type === 'CallExpression';
 };
 
@@ -92,6 +113,14 @@ const isIdentifier = (elem: Expression | Super | SpreadElement | PrivateIdentifi
 
 const isMemberExpression = (elem: Expression | Super | SpreadElement): elem is MemberExpression => {
   return elem.type === 'MemberExpression';
+};
+
+const isExpressionStatement = (elem: Directive | Statement | ModuleDeclaration): elem is ExpressionStatement => {
+  return elem.type === 'ExpressionStatement';
+}
+
+const isImportDeclaration = (elem: Directive | Statement | ModuleDeclaration): elem is ImportDeclaration => {
+  return elem.type === 'ImportDeclaration';
 }
 
 const findImportPathOfElement = (bodyImports: ImportDeclaration[], elementToMockName: string): OptionalImportPath => {
