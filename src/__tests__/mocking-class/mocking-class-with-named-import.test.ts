@@ -4,10 +4,8 @@ import { ClassSecond as NamedClassImport } from "src/__tests__/mocking-class/cla
 const NamedClassImportMock = vi.mocked(NamedClassImport);
 
 it('mocking-class-with-named-import', () => {
-  NamedClassImportMock.mockImplementation(() => {
-    return {
-      getValue: () => 'value-from-mock'
-    };
+  NamedClassImportMock.mockImplementation(class {
+    getValue = () => 'value-from-mock'
   });
 
   const classFirst = new ClassFirst();

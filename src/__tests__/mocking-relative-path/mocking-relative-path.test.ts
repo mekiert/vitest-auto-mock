@@ -4,10 +4,8 @@ import { SecondClass } from 'src/__tests__/mocking-relative-path/second-class';
 const ClassSecondMock = vi.mocked(SecondClass);
 
 it('mocking-relative-path', () => {
-  ClassSecondMock.mockImplementation(() => {
-    return {
-      getValue: () => 'value-from-mock'
-    };
+  ClassSecondMock.mockImplementation(class {
+    getValue = () => 'value-from-mock'
   });
 
   const firstClass = new FirstClass();

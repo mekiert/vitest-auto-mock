@@ -11,7 +11,8 @@ import type {
   Directive,
   Statement,
   ModuleDeclaration,
-  Program
+  Program,
+  VariableDeclaration
 } from 'estree';
 import type { ParseAst } from 'rollup';
 import { createFilter, Plugin, ResolvedConfig } from 'vite';
@@ -20,10 +21,10 @@ import { configDefaults } from 'vitest/config';
 const MOCKING_OBJECT_NAME = 'vi';
 const MOCKING_FUNCTION_NAME = 'mocked';
 
-export default function vitestAutoMockPlugin(): Plugin {
-  type FileFilter = ReturnType<typeof createFilter>;
-  let fileFilter: FileFilter | null = null;
+type FileFilter = ReturnType<typeof createFilter>;
 
+export default function vitestAutoMockPlugin(): Plugin {
+  let fileFilter: FileFilter | null = null;
   return {
     name: 'vite-plugin-vitest-auto-mock',
     configResolved: ({ test }: ResolvedConfig) => {
@@ -35,7 +36,6 @@ export default function vitestAutoMockPlugin(): Plugin {
         return;
       }
       const result = applyAutoMocksUsingAst(code, this.parse);
-
       return { code: result };
     }
   };
@@ -57,7 +57,7 @@ const applyAutoMocksUsingAst = (code: string, parse: ParseAst) => {
 
 const getAllAutoMockUsages = (body: Program['body']): CallExpression[] => {
   const usagesByVariablesDeclarations = body
-    .filter(elem => elem.type === 'VariableDeclaration')
+    .filter(isVariableDeclaration)
     .map(variableDeclaration => variableDeclaration.declarations[0].init);
   const usagesByCallExpressions = body
     .filter(isExpressionStatement)
@@ -102,6 +102,10 @@ const getImportPathOfMockedElement = (
   }
   return findImportPathOfElement(bodyImports, argument.name);
 };
+
+const isVariableDeclaration = (elem: Directive | Statement | ModuleDeclaration): elem is VariableDeclaration => {
+  return elem.type === 'VariableDeclaration';
+}
 
 const isCallExpression = (expression: OptionalExpression): expression is CallExpression => {
   return !!expression && expression.type === 'CallExpression';
