@@ -1,5 +1,5 @@
 # vitest-auto-mock
-[![Tests](https://github.com/mekiert/vitest-auto-mock/actions/workflows/tests.yml/badge.svg)](https://github.com/mekiert/vitest-auto-mock)
+[![tests](https://github.com/mekiert/vitest-auto-mock/actions/workflows/tests.yml/badge.svg)](https://github.com/mekiert/vitest-auto-mock/actions/workflows/tests.yml)
 [![NPM Type Definitions](https://img.shields.io/npm/types/vitest-auto-mock)](https://github.com/mekiert/vitest-auto-mock)
 [![NPM Version](https://img.shields.io/npm/v/vitest-auto-mock)](https://www.npmjs.com/package/vitest-auto-mock)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/mekiert/vitest-auto-mock/master/LICENCE)
